@@ -4,6 +4,8 @@ import { makeUser, type TestUser } from './data/users.js';
 import { HomePage } from './pages/home-page.js';
 import { LoginPage } from './pages/login-page.js';
 import { SignupPage } from './pages/signup-page.js';
+import { ProductsPage } from './pages/products-page.js';
+import { ProductDetailPage } from './pages/product-detail-page.js';
 
 type Fixtures = {
   api: ApiClient;
@@ -11,6 +13,8 @@ type Fixtures = {
   home: HomePage;
   login: LoginPage;
   signup: SignupPage;
+  products: ProductsPage;
+  productDetail: ProductDetailPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -32,6 +36,12 @@ export const test = base.extend<Fixtures>({
   },
   signup: async ({ page }, use) => {
     await use(new SignupPage(page));
+  },
+  products: async ({ page }, use) => {
+    await use(new ProductsPage(page));
+  },
+  productDetail: async ({ page }, use) => {
+    await use(new ProductDetailPage(page));
   },
 });
 
