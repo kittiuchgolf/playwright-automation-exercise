@@ -2,11 +2,15 @@ import { test as base, request } from '@playwright/test';
 import { ApiClient } from './api/api-client.js';
 import { makeUser, type TestUser } from './data/users.js';
 import { HomePage } from './pages/home-page.js';
+import { LoginPage } from './pages/login-page.js';
+import { SignupPage } from './pages/signup-page.js';
 
 type Fixtures = {
   api: ApiClient;
   testUser: TestUser;
   home: HomePage;
+  login: LoginPage;
+  signup: SignupPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -22,6 +26,12 @@ export const test = base.extend<Fixtures>({
   },
   home: async ({ page }, use) => {
     await use(new HomePage(page));
+  },
+  login: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
+  signup: async ({ page }, use) => {
+    await use(new SignupPage(page));
   },
 });
 
