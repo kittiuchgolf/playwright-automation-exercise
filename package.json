@@ -1,0 +1,27 @@
+{
+  "name": "playwright-automationexercise",
+  "version": "1.0.0",
+  "description": "Playwright TypeScript web + API automation for automationexercise.com",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "playwright test",
+    "test:web": "playwright test --project=web",
+    "test:api": "playwright test --project=api",
+    "report": "playwright show-report",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "typecheck": "tsc --noEmit",
+    "smoke": "bash scripts/smoke.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.0",
+    "@types/node": "^22.10.0",
+    "@faker-js/faker": "^9.3.0",
+    "allure-playwright": "^3.0.0",
+    "allure-commandline": "^2.32.0",
+    "dotenv": "^16.4.7",
+    "typescript": "^5.7.0"
+  }
+}
