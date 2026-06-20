@@ -6,6 +6,9 @@ export class ProductDetailPage extends BasePage {
   readonly name: Locator = this.page.locator('.product-information h2');
   readonly quantity: Locator = this.page.locator('#quantity');
   readonly addToCart: Locator = this.page.locator('button.cart');
+  // Add-to-cart is async and confirmed by this modal. Wait for it before
+  // navigating, otherwise the server-side add races the navigation.
+  readonly cartModal: Locator = this.page.locator('#cartModal');
 
   // Review form
   readonly reviewName: Locator = this.page.locator('#name');
@@ -20,7 +23,15 @@ export class ProductDetailPage extends BasePage {
 
   async addToCartAndContinue(): Promise<void> {
     await this.addToCart.click();
-    await this.page.getByRole('button', { name: 'Continue Shopping' }).click();
+    await this.cartModal.waitFor({ state: 'visible' });
+    await this.cartModal.getByRole('button', { name: 'Continue Shopping' }).click();
+    await this.cartModal.waitFor({ state: 'hidden' });
+  }
+
+  async addToCartAndViewCart(): Promise<void> {
+    await this.addToCart.click();
+    await this.cartModal.waitFor({ state: 'visible' });
+    await this.cartModal.getByRole('link', { name: 'View Cart' }).click();
   }
 
   async submitReview(name: string, email: string, text: string): Promise<void> {
