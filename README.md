@@ -1,0 +1,43 @@
+# playwright-automationexercise
+
+Playwright + TypeScript web & API automation for
+[automationexercise.com](https://automationexercise.com).
+
+## Quick start
+```bash
+npm install
+npx playwright install chromium
+cp .env.example .env   # optional; defaults target the live site
+npm test               # web + api
+```
+
+## Suites
+- **Web** (`tests/web/`) — Page Object Model, 18 tests mapped to the site's
+  official test cases (auth, products, cart, checkout, contact, misc).
+- **API** (`tests/api/`) — all 14 endpoints; asserts on `body.responseCode`
+  (every response is HTTP 200 — see `docs/api-notes.md`).
+
+## Useful commands
+| Command | Purpose |
+|---|---|
+| `npm run test:web` / `npm run test:api` | One suite |
+| `npm run report` | Open HTML report |
+| `npm run allure:generate && npm run allure:open` | Allure report |
+| `npm run smoke` | Fast sanity check |
+| `npm run typecheck` | Type check |
+
+## Notes on reliability
+Tests run against a live, shared public site. The config caps worker
+parallelism and enables retries to absorb transient load/ad hiccups; point
+`BASE_URL`/`API_URL` at a self-hosted instance for rock-solid runs. See
+`CLAUDE.md` and `docs/architecture.md`.
+
+## Docs
+- `CLAUDE.md` — guide for Claude Code (commands, conventions, the API quirk).
+- `docs/architecture.md` — layered design.
+- `docs/api-notes.md` — endpoint table + the responseCode behavior.
+- `docs/superpowers/` — design spec + implementation plan.
+
+## CI
+`.github/workflows/ci.yml` runs the full suite headless and uploads the HTML +
+Allure artifacts.
