@@ -1,10 +1,12 @@
 import { test as base, request } from '@playwright/test';
 import { ApiClient } from './api/api-client.js';
 import { makeUser, type TestUser } from './data/users.js';
+import { HomePage } from './pages/home-page.js';
 
 type Fixtures = {
   api: ApiClient;
   testUser: TestUser;
+  home: HomePage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -17,6 +19,9 @@ export const test = base.extend<Fixtures>({
   // A unique Faker user per test.
   testUser: async ({}, use) => {
     await use(makeUser());
+  },
+  home: async ({ page }, use) => {
+    await use(new HomePage(page));
   },
 });
 
