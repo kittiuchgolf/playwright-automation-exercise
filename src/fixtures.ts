@@ -9,6 +9,7 @@ import { ProductDetailPage } from './pages/product-detail-page.js';
 import { CartPage } from './pages/cart-page.js';
 import { CheckoutPage } from './pages/checkout-page.js';
 import { PaymentPage } from './pages/payment-page.js';
+import { ContactPage } from './pages/contact-page.js';
 
 type Fixtures = {
   api: ApiClient;
@@ -21,6 +22,7 @@ type Fixtures = {
   cart: CartPage;
   checkout: CheckoutPage;
   payment: PaymentPage;
+  contact: ContactPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -57,6 +59,9 @@ export const test = base.extend<Fixtures>({
   },
   payment: async ({ page }, use) => {
     await use(new PaymentPage(page));
+  },
+  contact: async ({ page }, use) => {
+    await use(new ContactPage(page));
   },
 });
 
