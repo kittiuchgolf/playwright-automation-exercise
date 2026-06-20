@@ -8,11 +8,13 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
-  // automationexercise.com is a shared public demo site. Running it with the
-  // default worker count (~CPU cores) opens too many concurrent browser
-  // sessions and the server slows/throttles, producing flakes scattered across
-  // whatever step is slowest. Cap parallelism so we stay a polite client.
+  // automationexercise.com is a live, shared, ad-serving demo site we don't
+  // control. Transient slowness/ad-overlay click drops are unavoidable, so we
+  // retry (standard for live-site E2E) rather than assert against a perfectly
+  // stable environment. Page objects are deterministic; retries cover the site.
+  retries: process.env.CI ? 2 : 1,
+  // Cap parallelism so we don't overload the shared site with too many
+  // concurrent browser sessions (which throttles and scatters flakes).
   workers: process.env.CI ? 2 : 4,
   timeout: 60_000,
   expect: { timeout: 10_000 },
