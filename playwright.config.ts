@@ -9,7 +9,11 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  // automationexercise.com is a shared public demo site. Running it with the
+  // default worker count (~CPU cores) opens too many concurrent browser
+  // sessions and the server slows/throttles, producing flakes scattered across
+  // whatever step is slowest. Cap parallelism so we stay a polite client.
+  workers: process.env.CI ? 2 : 4,
   timeout: 60_000,
   expect: { timeout: 10_000 },
   reporter: [
