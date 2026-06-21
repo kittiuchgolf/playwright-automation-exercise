@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>playwright-automationexercise · monitoring</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --accent: #38bdf8;
+        --border: #334155;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+      .wrap {
+        width: 100%;
+        max-width: 760px;
+      }
+      h1 {
+        margin: 0 0 0.25rem;
+        font-size: 1.75rem;
+      }
+      p.sub {
+        margin: 0 0 2rem;
+        color: var(--muted);
+      }
+      a.card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1rem;
+        transition:
+          transform 0.12s ease,
+          border-color 0.12s ease;
+      }
+      a.card:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent);
+      }
+      .card h2 {
+        margin: 0 0 0.35rem;
+        font-size: 1.15rem;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+      .tag.live {
+        background: rgba(56, 189, 248, 0.15);
+        color: var(--accent);
+      }
+      .tag.soon {
+        background: rgba(148, 163, 184, 0.15);
+        color: var(--muted);
+      }
+      .card.soon {
+        opacity: 0.6;
+        pointer-events: none;
+      }
+      footer {
+        margin-top: 1.5rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      footer a {
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>playwright-automationexercise</h1>
+      <p class="sub">Monitoring for the Playwright web + API automation suite.</p>
+
+      <a class="card" href="./allure/">
+        <h2>Test-health report <span class="tag live">Live</span></h2>
+        <p>
+          Allure dashboard — pass/fail trends, flaky tests, durations, and history across runs (api
+          + web combined).
+        </p>
+      </a>
+
+      <a class="card soon" href="./status/">
+        <h2>Uptime status <span class="tag soon">Coming soon</span></h2>
+        <p>
+          Scheduled health checks of automationexercise.com and its 14 APIs, with response times and
+          incident history.
+        </p>
+      </a>
+
+      <footer>
+        Source:
+        <a href="https://github.com/kittiuchgolf/playwright-automation-exercise"
+          >github.com/kittiuchgolf/playwright-automation-exercise</a
+        >
+      </footer>
+    </main>
+  </body>
+</html>
