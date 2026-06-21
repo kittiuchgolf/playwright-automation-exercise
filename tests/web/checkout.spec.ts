@@ -2,7 +2,17 @@ import { test, expect } from '../../src/fixtures.js';
 import { toAccountPayload } from '../../src/data/users.js';
 
 test.describe('Checkout', () => {
-  test('TC16: login before checkout, place order', async ({ api, login, home, products, productDetail, cart, checkout, payment, testUser }) => {
+  test('TC16: login before checkout, place order', async ({
+    api,
+    login,
+    home,
+    products,
+    productDetail,
+    cart,
+    checkout,
+    payment,
+    testUser,
+  }) => {
     const created = await api.createAccount(toAccountPayload(testUser));
     expect(created.body.responseCode).toBe(201);
     try {
@@ -25,7 +35,16 @@ test.describe('Checkout', () => {
     }
   });
 
-  test('TC23: verify delivery address matches the registered user', async ({ api, login, home, products, productDetail, cart, checkout, testUser }) => {
+  test('TC23: verify delivery address matches the registered user', async ({
+    api,
+    login,
+    home,
+    products,
+    productDetail,
+    cart,
+    checkout,
+    testUser,
+  }) => {
     const created = await api.createAccount(toAccountPayload(testUser));
     expect(created.body.responseCode).toBe(201);
     try {
@@ -46,7 +65,17 @@ test.describe('Checkout', () => {
     }
   });
 
-  test('TC14: register while checkout, place order', async ({ login, signup, home, products, productDetail, cart, checkout, payment, testUser }) => {
+  test('TC14: register while checkout, place order', async ({
+    login,
+    signup,
+    home,
+    products,
+    productDetail,
+    cart,
+    checkout,
+    payment,
+    testUser,
+  }) => {
     await products.open();
     await products.viewProduct(0);
     await productDetail.addToCartAndContinue();

@@ -20,13 +20,17 @@ test.describe('Products', () => {
     await products.open();
     await products.expandCategory('Women');
     await products.selectSubCategory('Dress');
-    await expect(products.page.getByRole('heading', { name: /Women - Dress Products/i })).toBeVisible();
+    await expect(
+      products.page.getByRole('heading', { name: /Women - Dress Products/i }),
+    ).toBeVisible();
   });
 
   test('TC19: view products by brand', async ({ products }) => {
     await products.open();
     await products.selectBrand('Polo');
-    await expect(products.page.getByRole('heading', { name: /Brand - Polo Products/i })).toBeVisible();
+    await expect(
+      products.page.getByRole('heading', { name: /Brand - Polo Products/i }),
+    ).toBeVisible();
     expect(await products.allProducts.count()).toBeGreaterThan(0);
   });
 });

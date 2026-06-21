@@ -18,11 +18,7 @@ export default defineConfig({
   workers: process.env.CI ? 2 : 4,
   timeout: 60_000,
   expect: { timeout: 10_000 },
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-    ['allure-playwright'],
-  ],
+  reporter: [['list'], ['html', { open: 'never' }], ['allure-playwright']],
   use: {
     actionTimeout: 15_000,
     navigationTimeout: 30_000,

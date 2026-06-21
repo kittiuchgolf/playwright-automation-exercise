@@ -6,7 +6,9 @@ export class ProductsPage extends BasePage {
   readonly allProducts: Locator = this.page.locator('.features_items .product-image-wrapper');
   readonly searchInput: Locator = this.page.locator('#search_product');
   readonly searchButton: Locator = this.page.locator('#submit_search');
-  readonly searchedProductsTitle: Locator = this.page.getByRole('heading', { name: 'Searched Products' });
+  readonly searchedProductsTitle: Locator = this.page.getByRole('heading', {
+    name: 'Searched Products',
+  });
 
   async open(): Promise<void> {
     await this.goto(ROUTES.products);
@@ -30,6 +32,9 @@ export class ProductsPage extends BasePage {
   }
 
   async selectBrand(brand: string): Promise<void> {
-    await this.page.locator('.brands_products').getByRole('link', { name: new RegExp(brand) }).click();
+    await this.page
+      .locator('.brands_products')
+      .getByRole('link', { name: new RegExp(brand) })
+      .click();
   }
 }

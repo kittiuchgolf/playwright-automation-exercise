@@ -15,7 +15,13 @@ export class ContactPage extends BasePage {
     await this.goto(ROUTES.contact);
   }
 
-  async submitForm(opts: { name: string; email: string; subject: string; message: string; filePath: string }): Promise<void> {
+  async submitForm(opts: {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    filePath: string;
+  }): Promise<void> {
     await this.name.fill(opts.name);
     await this.email.fill(opts.email);
     await this.subject.fill(opts.subject);

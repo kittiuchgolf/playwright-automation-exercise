@@ -4,7 +4,9 @@
   "description": "Playwright TypeScript web + API automation for automationexercise.com",
   "type": "module",
   "private": true,
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "test": "playwright test",
     "test:web": "playwright test --project=web",
