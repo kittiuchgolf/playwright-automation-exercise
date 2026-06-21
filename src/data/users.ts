@@ -14,7 +14,14 @@ export interface TestUser {
   company: string;
   address1: string;
   address2: string;
-  country: 'United States' | 'India' | 'Canada' | 'Australia' | 'Israel' | 'New Zealand' | 'Singapore';
+  country:
+    | 'United States'
+    | 'India'
+    | 'Canada'
+    | 'Australia'
+    | 'Israel'
+    | 'New Zealand'
+    | 'Singapore';
   state: string;
   city: string;
   zipcode: string;
@@ -26,7 +33,9 @@ export function makeUser(overrides: Partial<TestUser> = {}): TestUser {
   const lastName = faker.person.lastName();
   return {
     name: `${firstName} ${lastName}`,
-    email: faker.internet.email({ firstName, lastName, provider: `pw${Date.now()}.test` }).toLowerCase(),
+    email: faker.internet
+      .email({ firstName, lastName, provider: `pw${Date.now()}.test` })
+      .toLowerCase(),
     password: 'Passw0rd!23',
     title: 'Mr',
     birthDay: '10',

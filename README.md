@@ -1,5 +1,7 @@
 # playwright-automationexercise
 
+[![CI](https://github.com/kittiuchgolf/playwright-automation-exercise/actions/workflows/ci.yml/badge.svg)](https://github.com/kittiuchgolf/playwright-automation-exercise/actions/workflows/ci.yml)
+
 Playwright + TypeScript web & API automation for
 [automationexercise.com](https://automationexercise.com).
 
@@ -38,6 +40,24 @@ parallelism and enables retries to absorb transient load/ad hiccups; point
 - `docs/api-notes.md` — endpoint table + the responseCode behavior.
 - `docs/superpowers/` — design spec + implementation plan.
 
+## Quality gates
+
+CI runs six jobs; a final `quality-gate` job depends on all of them and is the
+single status check to require for merges:
+
+| Job | Gate |
+|-----|------|
+| `lint` | ESLint + Prettier (`npm run lint`, `npm run format:check`) |
+| `typecheck` | `tsc --noEmit` |
+| `security` | `npm audit --audit-level=high` |
+| `api` / `web` | Playwright suites (with step-summary + artifacts) |
+| `quality-gate` | passes only if all the above pass |
+
+**Enable merge protection (manual, one-time):** repo **Settings → Branches →
+Add branch ruleset** for `master` → enable **Require status checks to pass** →
+select **`quality-gate`**. Optionally require a PR before merging.
+
 ## CI
-`.github/workflows/ci.yml` runs the full suite headless and uploads the HTML +
+`.github/workflows/ci.yml` runs the gated pipeline headless on every push/PR,
+writes a per-run results table to the job summary, and uploads the HTML +
 Allure artifacts.

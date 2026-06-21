@@ -1,7 +1,12 @@
 import type { APIRequestContext, APIResponse } from '@playwright/test';
 import { API } from '../data/constants.js';
 import type {
-  ApiResult, BaseBody, ProductsListBody, BrandsListBody, UserDetailBody, AccountPayload,
+  ApiResult,
+  BaseBody,
+  ProductsListBody,
+  BrandsListBody,
+  UserDetailBody,
+  AccountPayload,
 } from './types.js';
 
 /**

@@ -4,7 +4,10 @@ import { toAccountPayload } from '../../src/data/users.js';
 
 test.describe('verifyLogin API', () => {
   // A real account is needed for the "valid" case. Create via API, delete after.
-  test('API 7: verifyLogin with valid credentials returns "User exists!"', async ({ api, testUser }) => {
+  test('API 7: verifyLogin with valid credentials returns "User exists!"', async ({
+    api,
+    testUser,
+  }) => {
     const created = await api.createAccount(toAccountPayload(testUser));
     expect(created.body.responseCode).toBe(201);
     try {
@@ -31,7 +34,9 @@ test.describe('verifyLogin API', () => {
     expect(body.message).toBe(MESSAGES.methodNotSupported);
   });
 
-  test('API 10: verifyLogin with invalid credentials returns "User not found!"', async ({ api }) => {
+  test('API 10: verifyLogin with invalid credentials returns "User not found!"', async ({
+    api,
+  }) => {
     const { status, body } = await api.verifyLogin('does-not-exist@nope.test', 'wrongpass');
     expect(status).toBe(200);
     expect(body.responseCode).toBe(404);

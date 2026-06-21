@@ -13,7 +13,11 @@ test.describe('Misc journeys', () => {
     await products.open();
     await products.viewProduct(0);
     await expect(productDetail.info).toBeVisible();
-    await productDetail.submitReview(testUser.name, testUser.email, 'Great product, fast delivery.');
+    await productDetail.submitReview(
+      testUser.name,
+      testUser.email,
+      'Great product, fast delivery.',
+    );
     await expect(productDetail.reviewSuccess).toBeVisible();
     await expect(productDetail.reviewSuccess).toContainText('Thank you for your review.');
   });

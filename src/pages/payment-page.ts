@@ -3,7 +3,9 @@ import type { Locator } from '@playwright/test';
 import { PAYMENT_CARD } from '../data/constants.js';
 
 export class PaymentPage extends BasePage {
-  readonly orderPlaced: Locator = this.page.locator('[data-qa="order-placed"], .alert-success').first();
+  readonly orderPlaced: Locator = this.page
+    .locator('[data-qa="order-placed"], .alert-success')
+    .first();
 
   async pay(): Promise<void> {
     await this.page.locator('[data-qa="name-on-card"]').fill(PAYMENT_CARD.nameOnCard);

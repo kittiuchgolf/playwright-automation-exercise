@@ -11,7 +11,11 @@ test.describe('Cart', () => {
     expect(await cart.rows.count()).toBeGreaterThanOrEqual(2);
   });
 
-  test('TC13: product quantity in cart reflects detail page', async ({ products, productDetail, cart }) => {
+  test('TC13: product quantity in cart reflects detail page', async ({
+    products,
+    productDetail,
+    cart,
+  }) => {
     await products.open();
     await products.viewProduct(0);
     await productDetail.setQuantity(4);
