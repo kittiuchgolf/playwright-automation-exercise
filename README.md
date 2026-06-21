@@ -5,6 +5,8 @@
 Playwright + TypeScript web & API automation for
 [automationexercise.com](https://automationexercise.com).
 
+📊 **Live dashboard:** https://kittiuchgolf.github.io/playwright-automation-exercise/
+
 ## Quick start
 ```bash
 npm install
@@ -56,6 +58,24 @@ single status check to require for merges:
 **Enable merge protection (manual, one-time):** repo **Settings → Branches →
 Add branch ruleset** for `master` → enable **Require status checks to pass** →
 select **`quality-gate`**. Optionally require a PR before merging.
+
+## Monitoring dashboard
+
+On every push to `master`, the `pages` job publishes a combined **Allure
+test-health report** (api + web) to GitHub Pages with trend history across the
+last ~20 runs — pass/fail trends, flaky tests, and durations:
+
+**https://kittiuchgolf.github.io/playwright-automation-exercise/**
+
+```
+<site root>/        landing page (index.html)
+  └── allure/       Allure report (trends/history)
+  └── status/       uptime status page (sub-project 2 — coming soon)
+```
+
+**Enable Pages (manual, one-time):** repo **Settings → Pages → Build and
+deployment → Source: Deploy from a branch → `gh-pages` / `(root)`**. The first
+push to `master` after this creates the `gh-pages` branch automatically.
 
 ## CI
 `.github/workflows/ci.yml` runs the gated pipeline headless on every push/PR,

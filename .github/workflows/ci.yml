@@ -72,6 +72,13 @@ jobs:
           name: playwright-report-api
           path: playwright-report/
           retention-days: 14
+      - name: Upload API Allure results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-api
+          path: allure-results/
+          retention-days: 14
 
   web:
     runs-on: ubuntu-latest
@@ -111,3 +118,49 @@ jobs:
     needs: [lint, typecheck, security, api, web]
     steps:
       - run: echo "All quality gates passed ✅"
+
+  # Publish the combined Allure test-health dashboard to GitHub Pages.
+  # Runs on every push to master (pass or fail) so the public dashboard always
+  # reflects the latest run and accumulates trend history.
+  pages:
+    if: ${{ always() && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
+    needs: [api, web]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout (for the landing page)
+        uses: actions/checkout@v4
+      - name: Download API Allure results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-api
+          path: allure-results
+      - name: Download web Allure results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-web
+          path: allure-results
+      - name: Load previous Allure history
+        uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - name: Generate Allure report with history
+        uses: simple-elf/allure-report-action@v1.9
+        with:
+          allure_results: allure-results
+          gh_pages: gh-pages
+          allure_history: allure-history
+          subfolder: allure
+          keep_reports: 20
+      - name: Add landing page at site root
+        run: cp site/index.html allure-history/index.html
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+          keep_files: true
