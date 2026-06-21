@@ -1,8 +1,17 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, type ReporterDescription } from '@playwright/test';
 import 'dotenv/config';
 
 const BASE_URL = process.env.BASE_URL ?? 'https://automationexercise.com';
 const API_URL = process.env.API_URL ?? 'https://automationexercise.com';
+
+const reporters: ReporterDescription[] = [
+  ['list'],
+  ['html', { open: 'never' }],
+  ['allure-playwright'],
+];
+if (process.env.CI) {
+  reporters.push(['github'], ['json', { outputFile: 'results.json' }]);
+}
 
 export default defineConfig({
   testDir: './tests',
@@ -18,7 +27,7 @@ export default defineConfig({
   workers: process.env.CI ? 2 : 4,
   timeout: 60_000,
   expect: { timeout: 10_000 },
-  reporter: [['list'], ['html', { open: 'never' }], ['allure-playwright']],
+  reporter: reporters,
   use: {
     actionTimeout: 15_000,
     navigationTimeout: 30_000,
