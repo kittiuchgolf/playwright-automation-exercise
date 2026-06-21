@@ -70,8 +70,12 @@ last ~20 runs — pass/fail trends, flaky tests, and durations:
 ```
 <site root>/        landing page (index.html)
   └── allure/       Allure report (trends/history)
-  └── status/       uptime status page (sub-project 2 — coming soon)
+  └── status/       uptime status page (probed every 6h; history in gh-pages)
 ```
+
+An **Uptime** workflow (`.github/workflows/uptime.yml`) probes the site + key
+APIs every 6 hours and publishes `/status/` with response times, uptime %, and a
+recent timeline — history persists in `gh-pages`.
 
 **Enable Pages (manual, one-time):** repo **Settings → Pages → Build and
 deployment → Source: Deploy from a branch → `gh-pages` / `(root)`**. The first
