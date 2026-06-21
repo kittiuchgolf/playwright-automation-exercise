@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Uptime status · playwright-automationexercise</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --accent: #38bdf8;
+        --border: #334155;
+        --up: #22c55e;
+        --down: #ef4444;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 2rem;
+        display: flex;
+        justify-content: center;
+      }
+      .wrap {
+        width: 100%;
+        max-width: 820px;
+      }
+      a.back {
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+      h1 {
+        margin: 0.5rem 0 0.25rem;
+        font-size: 1.6rem;
+      }
+      p.sub {
+        margin: 0 0 1.5rem;
+        color: var(--muted);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1.4fr auto auto;
+        gap: 1rem;
+        align-items: center;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 0.9rem 1.2rem;
+        margin-bottom: 0.75rem;
+      }
+      .name {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 600;
+      }
+      .dot {
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 50%;
+      }
+      .dot.up {
+        background: var(--up);
+      }
+      .dot.down {
+        background: var(--down);
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.9rem;
+        text-align: right;
+      }
+      .pct {
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .timeline {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 2px;
+        margin-top: 0.6rem;
+      }
+      .bar {
+        flex: 1;
+        height: 22px;
+        border-radius: 2px;
+        background: var(--border);
+      }
+      .bar.up {
+        background: var(--up);
+      }
+      .bar.down {
+        background: var(--down);
+      }
+      footer {
+        margin-top: 1.5rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      .empty {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <a class="back" href="../">← back to dashboard</a>
+      <h1>Uptime status</h1>
+      <p class="sub">
+        automationexercise.com health — checked every 6 hours. <span id="last"></span>
+      </p>
+      <div id="content"><div class="empty">Loading…</div></div>
+      <footer>Data: <code>status/history.json</code> on the <code>gh-pages</code> branch.</footer>
+    </main>
+    <script>
+      const LABELS = {
+        homepage: 'Homepage',
+        productsList: 'GET productsList',
+        brandsList: 'GET brandsList',
+        searchProduct: 'POST searchProduct',
+        verifyLogin: 'POST verifyLogin',
+      };
+      const TIMELINE = 40;
+
+      function render(history) {
+        const content = document.getElementById('content');
+        const checks = history.checks || [];
+        const targets = history.targets || [];
+        if (!checks.length || !targets.length) {
+          content.innerHTML =
+            '<div class="empty">No checks recorded yet. The first scheduled run will populate this page.</div>';
+          return;
+        }
+        document.getElementById('last').textContent =
+          'Last checked: ' + new Date(checks[checks.length - 1].t).toLocaleString();
+
+        content.innerHTML = targets
+          .map((key) => {
+            const series = checks.map((c) => c.results[key]).filter(Boolean);
+            const total = series.length;
+            const ups = series.filter((r) => r.ok).length;
+            const pct = total ? ((ups / total) * 100).toFixed(1) : '—';
+            const latest = series[series.length - 1] || { ok: false, ms: 0 };
+            const bars = series
+              .slice(-TIMELINE)
+              .map(
+                (r) =>
+                  '<div class="bar ' + (r.ok ? 'up' : 'down') + '" title="' + r.ms + 'ms"></div>',
+              )
+              .join('');
+            return (
+              '<div class="row">' +
+              '<div class="name"><span class="dot ' +
+              (latest.ok ? 'up' : 'down') +
+              '"></span>' +
+              (LABELS[key] || key) +
+              '</div>' +
+              '<div class="meta">' +
+              (latest.ok ? latest.ms + ' ms' : 'down') +
+              '</div>' +
+              '<div class="meta pct">' +
+              pct +
+              '%</div>' +
+              '<div class="timeline">' +
+              bars +
+              '</div>' +
+              '</div>'
+            );
+          })
+          .join('');
+      }
+
+      fetch('./history.json', { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : { targets: [], checks: [] }))
+        .then(render)
+        .catch(() => render({ targets: [], checks: [] }));
+    </script>
+  </body>
+</html>
