@@ -9,3 +9,4 @@ blob-report/
 .DS_Store
 results.json
 site/allure/
+a11y-results/

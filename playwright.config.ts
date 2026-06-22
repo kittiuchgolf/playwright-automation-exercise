@@ -13,6 +13,9 @@ if (process.env.CI) {
   reporters.push(['github'], ['json', { outputFile: 'results.json' }]);
 }
 
+const FULL = !!process.env.FULL_MATRIX; // nightly sets this to run every engine
+const IGNORE_A11Y = /a11y\.spec\.ts/; // a11y runs only in its own Chromium project
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -44,6 +47,41 @@ export default defineConfig({
     {
       name: 'web',
       testDir: './tests/web',
+      testIgnore: IGNORE_A11Y,
+      use: { ...devices['Desktop Chrome'], baseURL: BASE_URL },
+    },
+    ...(FULL
+      ? [
+          {
+            name: 'web-firefox',
+            testDir: './tests/web',
+            testIgnore: IGNORE_A11Y,
+            use: { ...devices['Desktop Firefox'], baseURL: BASE_URL },
+          },
+          {
+            name: 'web-webkit',
+            testDir: './tests/web',
+            testIgnore: IGNORE_A11Y,
+            use: { ...devices['Desktop Safari'], baseURL: BASE_URL },
+          },
+          {
+            name: 'web-mobile',
+            testDir: './tests/web',
+            testIgnore: IGNORE_A11Y,
+            use: { ...devices['Pixel 5'], baseURL: BASE_URL },
+          },
+          {
+            name: 'web-mobile-safari',
+            testDir: './tests/web',
+            testIgnore: IGNORE_A11Y,
+            use: { ...devices['iPhone 13'], baseURL: BASE_URL },
+          },
+        ]
+      : []),
+    {
+      name: 'a11y',
+      testDir: './tests/web',
+      testMatch: IGNORE_A11Y,
       use: { ...devices['Desktop Chrome'], baseURL: BASE_URL },
     },
   ],
