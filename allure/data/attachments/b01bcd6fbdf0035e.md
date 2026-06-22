@@ -1,0 +1,86 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: web/auth.spec.ts >> Authentication >> TC3: login with invalid credentials shows error
+- Location: tests/web/auth.spec.ts:41:3
+
+# Error details
+
+```
+TimeoutError: locator.fill: Timeout 15000ms exceeded.
+Call log:
+  - waiting for locator('[data-qa="login-email"]')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - text: 403 Forbidden
+    - generic [ref=e4]:
+      - text: Please forward this error screen to automationexercise.com's
+      - link "WebMaster" [ref=e5] [cursor=pointer]:
+        - /url: mailto:webmaster@automationexercise.com?subject=Error message [403] (none) for automationexercise.com/login port 443 on Monday, 22-Jun-2026 01:00:18 MST
+      - text: .
+    - paragraph [ref=e6]: "Access is forbidden to the requested page:"
+  - list [ref=e10]:
+    - listitem [ref=e11]:
+      - img [ref=e12]
+      - generic [ref=e13]: automationexercise.com/login (port 443)
+    - listitem
+  - contentinfo [ref=e14]:
+    - generic [ref=e15]:
+      - link "cPanel, Inc." [ref=e16] [cursor=pointer]:
+        - /url: http://cpanel.com/?utm_source=cpanelwhm&utm_medium=cplogo&utm_content=logolink&utm_campaign=403referral
+        - img "cPanel, Inc." [ref=e17]
+      - generic [ref=e18]:
+        - link "Copyright © 2020 cPanel, L.L.C." [ref=e19] [cursor=pointer]:
+          - /url: http://cpanel.com/?utm_source=cpanelwhm&utm_medium=cplogo&utm_content=logolink&utm_campaign=403referral
+        - link "Privacy Policy" [ref=e20] [cursor=pointer]:
+          - /url: https://go.cpanel.net/privacy
+```
+
+# Test source
+
+```ts
+  1  | import { BasePage } from './base-page.js';
+  2  | import type { Locator } from '@playwright/test';
+  3  | import { ROUTES } from '../data/constants.js';
+  4  | 
+  5  | export class LoginPage extends BasePage {
+  6  |   readonly loginEmail: Locator = this.page.locator('[data-qa="login-email"]');
+  7  |   readonly loginPassword: Locator = this.page.locator('[data-qa="login-password"]');
+  8  |   readonly loginButton: Locator = this.page.locator('[data-qa="login-button"]');
+  9  |   readonly loginError: Locator = this.page.getByText('Your email or password is incorrect!');
+  10 | 
+  11 |   readonly signupName: Locator = this.page.locator('[data-qa="signup-name"]');
+  12 |   readonly signupEmail: Locator = this.page.locator('[data-qa="signup-email"]');
+  13 |   readonly signupButton: Locator = this.page.locator('[data-qa="signup-button"]');
+  14 |   readonly signupError: Locator = this.page.getByText('Email Address already exist!');
+  15 | 
+  16 |   async open(): Promise<void> {
+  17 |     await this.goto(ROUTES.login);
+  18 |   }
+  19 | 
+  20 |   async login(email: string, password: string): Promise<void> {
+> 21 |     await this.loginEmail.fill(email);
+     |                           ^ TimeoutError: locator.fill: Timeout 15000ms exceeded.
+  22 |     await this.loginPassword.fill(password);
+  23 |     await this.loginButton.click();
+  24 |   }
+  25 | 
+  26 |   async startSignup(name: string, email: string): Promise<void> {
+  27 |     await this.signupName.fill(name);
+  28 |     await this.signupEmail.fill(email);
+  29 |     await this.signupButton.click();
+  30 |   }
+  31 | }
+  32 | 
+```
