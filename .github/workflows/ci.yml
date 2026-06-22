@@ -153,6 +153,35 @@ jobs:
           path: allure-results/
           retention-days: 14
 
+  # Report-only accessibility scan. NOT in quality-gate's needs — it can never
+  # block a merge, because the target site is third-party and we can't fix its
+  # violations. The baseline diff surfaces only NEW rule ids in the job summary.
+  a11y:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Run accessibility scan (report-only)
+        run: npx playwright test --project=a11y
+        env:
+          CI: 'true'
+      - name: Diff vs baseline (never fails the build)
+        if: always()
+        run: node scripts/a11y-diff.mjs
+      - name: Upload a11y results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: a11y-results
+          path: a11y-results/
+          retention-days: 14
+
   quality-gate:
     runs-on: ubuntu-latest
     needs: [lint, typecheck, security, api, web]

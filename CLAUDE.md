@@ -49,6 +49,22 @@ Reliability choices live in `playwright.config.ts`:
 - To run rock-solid, point `BASE_URL`/`API_URL` (see `.env.example`) at a
   self-hosted instance of automationexercise.
 
+## Cross-browser matrix & accessibility
+
+- Browser/device coverage is wired via **Playwright projects gated by
+  `FULL_MATRIX`** in `playwright.config.ts` — NOT a GitHub Actions matrix
+  (parallel runners would overload the shared live site). Default run = `web`
+  (Chromium) + `api`; `FULL_MATRIX=1` adds `web-firefox`, `web-webkit`,
+  `web-mobile`, `web-mobile-safari`.
+- The `a11y` project is **Chromium-only** and excluded from the `web*` projects
+  via `testIgnore`/`testMatch` on `/a11y\.spec\.ts/`. It is **report-only**:
+  `tests/web/a11y.spec.ts` writes per-route rule ids to `a11y-results/`, and
+  `scripts/a11y-diff.mjs` diffs them against `docs/a11y-baseline.json`. Never
+  add a failing assertion to the a11y spec, and never add the `a11y` CI job to
+  `quality-gate`'s `needs`.
+- Update the a11y baseline only on purpose: `npm run a11y:baseline`, then commit
+  the changed `docs/a11y-baseline.json`.
+
 ## Merge gate & quarantine
 
 - `master` is protected: merges are PR-only and require the `quality-gate`

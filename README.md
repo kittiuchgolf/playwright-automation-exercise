@@ -21,6 +21,25 @@ npm test               # web + api
 - **API** (`tests/api/`) — all 14 endpoints; asserts on `body.responseCode`
   (every response is HTTP 200 — see `docs/api-notes.md`).
 
+## Cross-browser, mobile & accessibility
+
+- **Per-PR CI** runs the web suite on **Chromium** only (fast, stable, light on
+  the shared live site).
+- **Nightly** (`.github/workflows/nightly.yml`, also `workflow_dispatch`) runs
+  the full matrix — Chromium, Firefox, WebKit, plus emulated **Pixel 5** and
+  **iPhone 13** — via `FULL_MATRIX=1 npm test`. Run it locally with:
+
+  ```bash
+  npx playwright install firefox webkit
+  FULL_MATRIX=1 npm test
+  ```
+
+- **Accessibility** (`npm run test:a11y`) scans key pages with axe and is
+  **report-only** — it never fails CI, because the target site is third-party
+  and we cannot fix its violations. `npm run a11y:diff` flags only rule ids that
+  are _new_ versus the committed golden baseline (`docs/a11y-baseline.json`);
+  refresh the baseline intentionally with `npm run a11y:baseline`.
+
 ## Useful commands
 | Command | Purpose |
 |---|---|
