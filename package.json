@@ -19,7 +19,10 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "smoke": "bash scripts/smoke.sh"
+    "smoke": "bash scripts/smoke.sh",
+    "test:a11y": "playwright test --project=a11y",
+    "a11y:diff": "node scripts/a11y-diff.mjs",
+    "a11y:baseline": "node scripts/a11y-diff.mjs --update"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
