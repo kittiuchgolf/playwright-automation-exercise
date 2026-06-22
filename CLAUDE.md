@@ -55,8 +55,9 @@ Reliability choices live in `playwright.config.ts`:
   check (which needs `lint`, `typecheck`, `security`, `api`, `web`). Apply/refresh
   the rule with `bash scripts/setup-branch-protection.sh` (needs `gh auth login`).
 - The blocking `web` job runs `--grep-invert @quarantine`; a non-gating
-  `web-quarantine` job runs `--grep @quarantine --pass-with-no-tests` and is
-  `continue-on-error`. **Never add `web-quarantine` to `quality-gate`'s
+  `web-quarantine` job runs `--grep @quarantine --pass-with-no-tests` with
+  `continue-on-error: true` on its **test step**, so flaky test failures never
+  turn it red. **Never add `web-quarantine` to `quality-gate`'s
   `needs`** — that would let flaky tests block merges.
 - **Quarantine policy:** if a web test flakes repeatedly in the Allure trend
   with no code cause, tag it and open a tracking issue:

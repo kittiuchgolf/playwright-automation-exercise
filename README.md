@@ -44,7 +44,7 @@ parallelism and enables retries to absorb transient load/ad hiccups; point
 
 ## Quality gates
 
-CI runs six jobs; a final `quality-gate` job depends on all of them and is the
+CI runs seven jobs; a final `quality-gate` job depends on all of them and is the
 single status check to require for merges:
 
 | Job | Gate |
