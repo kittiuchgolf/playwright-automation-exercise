@@ -44,8 +44,9 @@ parallelism and enables retries to absorb transient load/ad hiccups; point
 
 ## Quality gates
 
-CI runs seven jobs; a final `quality-gate` job depends on all of them and is the
-single status check to require for merges:
+The `quality-gate` job depends on `lint`, `typecheck`, `security`, `api`, and
+`web`, and is the single status check to require for merges (the non-gating
+`web-quarantine` job is intentionally excluded):
 
 | Job | Gate |
 |-----|------|
