@@ -55,9 +55,14 @@ single status check to require for merges:
 | `api` / `web` | Playwright suites (with step-summary + artifacts) |
 | `quality-gate` | passes only if all the above pass |
 
-**Enable merge protection (manual, one-time):** repo **Settings → Branches →
-Add branch ruleset** for `master` → enable **Require status checks to pass** →
-select **`quality-gate`**. Optionally require a PR before merging.
+`web` runs only stable tests (`--grep-invert @quarantine`). A separate
+**non-gating** `web-quarantine` job runs `@quarantine`-tagged flaky tests
+report-only — it never blocks a merge (see `CLAUDE.md`).
+
+**Enable merge protection (one-time):** after `gh auth login`, run
+`bash scripts/setup-branch-protection.sh`. This requires the `quality-gate`
+check on `master`, makes merges PR-only (no direct pushes, admins included),
+and blocks force-pushes/deletions. The script is idempotent.
 
 ## Monitoring dashboard
 

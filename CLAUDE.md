@@ -49,6 +49,24 @@ Reliability choices live in `playwright.config.ts`:
 - To run rock-solid, point `BASE_URL`/`API_URL` (see `.env.example`) at a
   self-hosted instance of automationexercise.
 
+## Merge gate & quarantine
+
+- `master` is protected: merges are PR-only and require the `quality-gate`
+  check (which needs `lint`, `typecheck`, `security`, `api`, `web`). Apply/refresh
+  the rule with `bash scripts/setup-branch-protection.sh` (needs `gh auth login`).
+- The blocking `web` job runs `--grep-invert @quarantine`; a non-gating
+  `web-quarantine` job runs `--grep @quarantine --pass-with-no-tests` and is
+  `continue-on-error`. **Never add `web-quarantine` to `quality-gate`'s
+  `needs`** — that would let flaky tests block merges.
+- **Quarantine policy:** if a web test flakes repeatedly in the Allure trend
+  with no code cause, tag it and open a tracking issue:
+  ```ts
+  test('TC-x: flaky journey', { tag: '@quarantine' }, async ({ home }) => { ... });
+  ```
+  Quarantine is a holding pen, not a graveyard — fix or delete the test, don't
+  let it linger. Retries (`retries=2` in CI) handle one-off transient flake;
+  quarantine is only for tests that stay flaky across retries.
+
 ## Conventions
 - TypeScript ESM. Import local files with the `.js` extension (e.g.
   `import { X } from './x.js'`).
