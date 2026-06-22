@@ -142,6 +142,16 @@ jobs:
           name: playwright-report-web-quarantine
           path: playwright-report/
           retention-days: 14
+      # Uploaded for parity/debugging only — intentionally NOT consumed by the
+      # `pages` job, so known-flaky quarantined tests never pollute the
+      # published Allure pass/fail trend.
+      - name: Upload quarantine Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-web-quarantine
+          path: allure-results/
+          retention-days: 14
 
   quality-gate:
     runs-on: ubuntu-latest
