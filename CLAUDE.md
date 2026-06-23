@@ -65,6 +65,25 @@ Reliability choices live in `playwright.config.ts`:
 - Update the a11y baseline only on purpose: `npm run a11y:baseline`, then commit
   the changed `docs/a11y-baseline.json`.
 
+## Merge gate & quarantine
+
+- `master` is protected: merges are PR-only and require the `quality-gate`
+  check (which needs `lint`, `typecheck`, `security`, `api`, `web`). Apply/refresh
+  the rule with `bash scripts/setup-branch-protection.sh` (needs `gh auth login`).
+- The blocking `web` job runs `--grep-invert @quarantine`; a non-gating
+  `web-quarantine` job runs `--grep @quarantine --pass-with-no-tests` with
+  `continue-on-error: true` on its **test step**, so flaky test failures never
+  turn it red. **Never add `web-quarantine` to `quality-gate`'s
+  `needs`** — that would let flaky tests block merges.
+- **Quarantine policy:** if a web test flakes repeatedly in the Allure trend
+  with no code cause, tag it and open a tracking issue:
+  ```ts
+  test('TC-x: flaky journey', { tag: '@quarantine' }, async ({ home }) => { ... });
+  ```
+  Quarantine is a holding pen, not a graveyard — fix or delete the test, don't
+  let it linger. Retries (`retries=2` in CI) handle one-off transient flake;
+  quarantine is only for tests that stay flaky across retries.
+
 ## Conventions
 - TypeScript ESM. Import local files with the `.js` extension (e.g.
   `import { X } from './x.js'`).
