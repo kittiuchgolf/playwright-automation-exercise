@@ -1,12 +1,7 @@
 import { test, expect } from '../../src/fixtures.js';
 import { toAccountPayload } from '../../src/data/users.js';
 
-// QUARANTINE (tracking): green locally, fail only from CI runner IPs — the live
-// site's createAccount API 302-redirects (Cloudflare bot-block on datacenter
-// IPs), breaking account setup. Tagged @quarantine so they run report-only in
-// the web-quarantine lane instead of blocking merges. Real fix: point
-// BASE_URL/API_URL at a self-hosted instance, then remove this tag. See PR #4.
-test.describe('Authentication', { tag: '@quarantine' }, () => {
+test.describe('Authentication', () => {
   test('TC1: register a new user and delete account', async ({ login, signup, home, testUser }) => {
     await login.open();
     await login.startSignup(testUser.name, testUser.email);
