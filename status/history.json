@@ -456,6 +456,36 @@
           "code": 404
         }
       }
+    },
+    {
+      "t": "2026-06-25T13:56:59.951Z",
+      "results": {
+        "homepage": {
+          "ok": false,
+          "ms": 466,
+          "code": 302
+        },
+        "productsList": {
+          "ok": false,
+          "ms": 177,
+          "code": 302
+        },
+        "brandsList": {
+          "ok": false,
+          "ms": 75,
+          "code": 302
+        },
+        "searchProduct": {
+          "ok": false,
+          "ms": 57,
+          "code": 302
+        },
+        "verifyLogin": {
+          "ok": false,
+          "ms": 81,
+          "code": 302
+        }
+      }
     }
   ]
 }
