@@ -666,6 +666,36 @@
           "code": 404
         }
       }
+    },
+    {
+      "t": "2026-06-27T08:22:37.348Z",
+      "results": {
+        "homepage": {
+          "ok": true,
+          "ms": 251,
+          "code": 200
+        },
+        "productsList": {
+          "ok": true,
+          "ms": 117,
+          "code": 200
+        },
+        "brandsList": {
+          "ok": true,
+          "ms": 48,
+          "code": 200
+        },
+        "searchProduct": {
+          "ok": true,
+          "ms": 66,
+          "code": 200
+        },
+        "verifyLogin": {
+          "ok": true,
+          "ms": 57,
+          "code": 404
+        }
+      }
     }
   ]
 }
