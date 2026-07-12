@@ -2466,6 +2466,36 @@
           "code": 302
         }
       }
+    },
+    {
+      "t": "2026-07-12T07:53:20.736Z",
+      "results": {
+        "homepage": {
+          "ok": false,
+          "ms": 456,
+          "code": 302
+        },
+        "productsList": {
+          "ok": false,
+          "ms": 90,
+          "code": 302
+        },
+        "brandsList": {
+          "ok": false,
+          "ms": 77,
+          "code": 302
+        },
+        "searchProduct": {
+          "ok": false,
+          "ms": 81,
+          "code": 302
+        },
+        "verifyLogin": {
+          "ok": false,
+          "ms": 72,
+          "code": 302
+        }
+      }
     }
   ]
 }
