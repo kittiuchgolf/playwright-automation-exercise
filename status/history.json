@@ -8,36 +8,6 @@
   ],
   "checks": [
     {
-      "t": "2026-07-04T01:29:12.279Z",
-      "results": {
-        "homepage": {
-          "ok": true,
-          "ms": 376,
-          "code": 200
-        },
-        "productsList": {
-          "ok": true,
-          "ms": 115,
-          "code": 200
-        },
-        "brandsList": {
-          "ok": true,
-          "ms": 67,
-          "code": 200
-        },
-        "searchProduct": {
-          "ok": true,
-          "ms": 93,
-          "code": 200
-        },
-        "verifyLogin": {
-          "ok": true,
-          "ms": 70,
-          "code": 404
-        }
-      }
-    },
-    {
       "t": "2026-07-04T08:17:30.647Z",
       "results": {
         "homepage": {
@@ -3604,6 +3574,36 @@
           "ok": false,
           "ms": 50,
           "code": 200
+        }
+      }
+    },
+    {
+      "t": "2026-08-02T18:48:58.620Z",
+      "results": {
+        "homepage": {
+          "ok": true,
+          "ms": 217,
+          "code": 200
+        },
+        "productsList": {
+          "ok": true,
+          "ms": 104,
+          "code": 200
+        },
+        "brandsList": {
+          "ok": true,
+          "ms": 57,
+          "code": 200
+        },
+        "searchProduct": {
+          "ok": true,
+          "ms": 79,
+          "code": 200
+        },
+        "verifyLogin": {
+          "ok": true,
+          "ms": 63,
+          "code": 404
         }
       }
     }
